@@ -25,7 +25,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	// keep it at the end because it's going to crash
 	cout << "============== Throwing exceptions in destructors =======" << endl;
 	EAT_EXC(DestThrow t);
-	//EAT_EXC(DoubleException());   // <-- crash here. Comment out to get a clean run
+	EAT_EXC(DoubleException());   // <-- crash here. Comment out to get a clean run
+	
+	// wait for user input
+	cout << "Press Enter to exit" << endl;
 	char val;
 	cin >> val;
 	return 0;
