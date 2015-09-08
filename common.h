@@ -5,6 +5,11 @@ inline void ReportCleanup(const std::string &clsname) {
 	std::cout << clsname << " cleaned up." << std::endl;
 }
 
+template<typename T>
+inline void ReportCleanup(const std::string &clsname, T x) {
+	std::cout << clsname << ": " << x << " cleaned up." << std::endl;
+}
+
 /** Simulates a RAII class such as a smart pointer */
 class SmartResource {
 public:

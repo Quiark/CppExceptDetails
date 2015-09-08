@@ -2,6 +2,9 @@
 #include "stdafx.h"
 #include "common.h"
 
+/// Throws in constructor and demonstrates how the destructor is not called
+/// and manually allocated resources are leaked.
+/// Smart pointer (RAII), however, does get released.
 class ConsThrow {
 public:
 	ConsThrow(): m_smartptr('A') {
@@ -30,7 +33,7 @@ private:
 	SmartResource m_smartptr;
 };
 
-
+/// A base class for further experiments.
 class NoThrowBaseClass {
 public:
 	NoThrowBaseClass() {
@@ -65,3 +68,30 @@ public:
 protected:
 	int m_resource2;
 };
+
+
+/// Used for seeing behaviour of array allocation. The 3rd construction of this class throws
+/// which means that array elements before it got constructed. They will be destructed immediately,
+/// which is actually the only reasonable solution.
+class LaterThrow {
+public:
+	LaterThrow() {
+		std::cout << "Constructing LaterThrow: " << m_cnt << std::endl;
+		m_resource = m_cnt;
+		m_cnt += 1;
+		if (m_cnt == 3) {
+			std::cout << "Throwing..." << std::endl;
+			throw std::invalid_argument("just so");
+		}
+	}
+
+	~LaterThrow() {
+		ReportCleanup("LaterThrow", m_resource);
+		m_resource = 0;
+	}
+
+	int m_resource;
+	static int m_cnt;
+};
+
+int LaterThrow::m_cnt = 0;

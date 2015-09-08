@@ -18,6 +18,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	EAT_EXC(ConsThrow t);
 	EAT_EXC(ConsThrowSubclass t);
 
+	LaterThrow *t = nullptr;
+	EAT_EXC(t = new LaterThrow[4]);
+	// t stays NULL here
+
 	cout << "============== Timing =======" << endl;
 	cout << "Exceptions: " << timing(run_exc) << endl;
 	cout << "Err codes: " << timing(run_errcode) << endl;
